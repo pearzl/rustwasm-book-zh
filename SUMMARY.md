@@ -5,10 +5,10 @@
 - [介绍](./introduction.md)
 - [为什么是Rust和WebAssembly？](./why-rust-and-webassembly.md)
 - [背景和概念](./background-and-concepts.md)
-  - [What is WebAssembly?](./what-is-webassembly.md)
+  - [什么是WebAssembly？](./what-is-webassembly.md)
 --------------------------------------------------------------------------------
-- [Tutorial](./game-of-life/introduction.md)
-    - [Setup](./game-of-life/setup.md)
+- [教程](./game-of-life/introduction.md)
+    - [搭建](./game-of-life/setup.md)
     - [Hello, World!](./game-of-life/hello-world.md)
     - [Rules](./game-of-life/rules.md)
     - [Implementing Life](./game-of-life/implementing.md)
