@@ -1,46 +1,36 @@
-# Adding Interactivity
+*commit/57962c71c55510f5ed310f12a1957c593f7663cc*
 
-We will continue to explore the JavaScript and WebAssembly interface by adding
-some interactive features to our Game of Life implementation. We will enable
-users to toggle whether a cell is alive or dead by clicking on it, and
-allow pausing the game, which makes drawing cell patterns a lot easier.
+# 增加交互性
 
-## Pausing and Resuming the Game
+通过添加一些交互特性到我们的生命游戏视线中，我们将继续探索JavaScript和WebAssembly接口。
 
-Let's add a button to toggle whether the game is playing or paused. To
-`wasm-game-of-life/www/index.html`, add the button right above the `<canvas>`:
+## 暂停和恢复游戏
+
+让我们添加一个按钮用于切换游戏运行或者暂停。
+在`wasm-game-of-life/www/index.html`中，把按钮添加到`<canvas>`上方。
 
 ```html
 <button id="play-pause"></button>
 ```
 
-In the `wasm-game-of-life/www/index.js` JavaScript, we will make the following
-changes:
+在`wasm-game-of-life/www/index.js` JavaScript中，我们将进行以下改变：
 
-* Keep track of the identifier returned by the latest call to
-  `requestAnimationFrame`, so that we can cancel the animation by calling
-  `cancelAnimationFrame` with that identifier.
+* 追踪由最近一次调用`requestAnimationFrame`返回的标识符，
+  这样我们可以使用那个标识符调用`cancelAnimationFrame`来取消动画。
 
-* When the play/pause button is clicked, check for whether we have the
-  identifier for a queued animation frame. If we do, then the game is currently
-  playing, and we want to cancel the animation frame so that `renderLoop` isn't
-  called again, effectively pausing the game. If we do not have an identifier
-  for a queued animation frame, then we are currently paused, and we would like
-  to call `requestAnimationFrame` to resume the game.
+* 当暂停或运行按钮被点击，检查我们是否有一个派对的动画帧的标识符。
+  如果有，那么游戏当前在运行，我们想要取消动画帧，所以`renderLoop`不会被再次调用，有效的暂停了游戏。
+  如果没有，那么目前被暂停了，我们将会调用`requestAnimationFrame`来恢复游戏。
 
-Because the JavaScript is driving the Rust and WebAssembly, this is all we need
-to do, and we don't need to change the Rust sources.
+由于JavaScript驱动Rust and WebAssembly，这就是我们需要做的全部了，我们不需要修改Rust源代码。
 
-We introduce the `animationId` variable to keep track of the identifier returned
-by `requestAnimationFrame`. When there is no queued animation frame, we set this
-variable to `null`.
+我们引入了`animationId`变量来追踪`requestAnimationFrame`返回的标识符。
+当没有派对的动画帧时，我们将这个变量设置为`null`。
 
 ```js
 let animationId = null;
 
-// This function is the same as before, except the
-// result of `requestAnimationFrame` is assigned to
-// `animationId`.
+// 这个函数和以前一样，除了`requestAnimationFrame`的结果被分配给了`animationId`.
 const renderLoop = () => {
   drawGrid();
   drawCells();
@@ -51,8 +41,7 @@ const renderLoop = () => {
 };
 ```
 
-At any instant in time, we can tell whether the game is paused or not by
-inspecting the value of `animationId`:
+在任何时刻，我们都可以通过检查`animationId`的值来判断游戏是否暂停：
 
 ```js
 const isPaused = () => {
@@ -60,10 +49,9 @@ const isPaused = () => {
 };
 ```
 
-Now, when the play/pause button is clicked, we check whether the game is
-currently paused or playing, and resume the `renderLoop` animation or cancel the
-next animation frame respectively. Additionally, we update the button's text
-icon to reflect the action that the button will take when clicked next.
+现在当继续/暂停按钮被电机的时候，我们检查游戏当前是运行还是暂停，
+然后分别恢复`renderLoop`动画或者取消下一个动画帧。
+此外，我们更新按钮的文本图标以反应按钮在下次单机时将执行的操作。
 
 ```js
 const playPauseButton = document.getElementById("play-pause");
@@ -88,25 +76,22 @@ playPauseButton.addEventListener("click", event => {
 });
 ```
 
-Finally, we were previously kick-starting the game and its animation by calling
-`requestAnimationFrame(renderLoop)` directly, but we want to replace that with a
-call to `play` so that the button gets the correct initial text icon.
+最后，我们之前时通过直接调用`requestAnimationFrame(renderLoop)`来启动游戏和动画的，
+但是我们想用一个调用来替换他，一边按钮获得正确的初始文本图标。
 
 ```diff
-// This used to be `requestAnimationFrame(renderLoop)`.
+// 这里原来是 `requestAnimationFrame(renderLoop)`.
 play();
 ```
 
-Refresh [http://localhost:8080/](http://localhost:8080/) and we should now be
-able to pause and resume the game by clicking on the button!
+刷新[http://localhost:8080/](http://localhost:8080/)我们现在通过点击按钮应该能够暂停和恢复游戏了。
 
-## Toggling a Cell's State on `"click"` Events
+## 点击切换细胞状态
 
-Now that we can pause the game, it's time to add the ability to mutate the cells
-by clicking on them.
+现在我们已经可以暂停游戏了，是时候添加点击使细胞变异的功能了。
 
-To toggle a cell is to flip its state from alive to dead or from dead to
-alive. Add a `toggle` method to `Cell` in `wasm-game-of-life/src/lib.rs`:
+使细胞变异是指从存活到死亡或者从死亡到存活的翻转它的状态。
+在`wasm-game-of-life/src/lib.rs`中为`Cell`添加一个`toggle`方法：
 
 ```rust
 impl Cell {
@@ -119,12 +104,10 @@ impl Cell {
 }
 ```
 
-To toggle the state of a cell at given row and column, we translate the row and
-column pair into an index into the cells vector and call the toggle method on
-the cell at that index:
+为了改变指定行列的细胞状态，我们将行列对翻译为细胞向量的索引，然后调用那个索引位置上的细胞的翻转方法：
 
 ```rust
-/// Public methods, exported to JavaScript.
+/// 公共方法，暴露给JavaScript
 #[wasm_bindgen]
 impl Universe {
     // ...
@@ -136,13 +119,11 @@ impl Universe {
 }
 ```
 
-This method is defined within the `impl` block that is annotated with
-`#[wasm_bindgen]` so that it can be called by JavaScript.
+这个方法定义再`impl`块中，它带有`#[wasm_bindgen]`注解，这样JavaScript才能调用它。
 
-In `wasm-game-of-life/www/index.js`, we listen to click events on the `<canvas>`
-element, translate the click event's page-relative coordinates into
-canvas-relative coordinates, and then into a row and column, invoke the
-`toggle_cell` method, and finally redraw the scene.
+在`wasm-game-of-life/www/index.js`中，我们在`<canvas>`元素上监听点击事件，
+将点击事件的页面相对坐标翻译为画布相对坐标，然后转换为行和列，
+调用`toggle_cell`方法，最后重绘场景。
 
 ```js
 canvas.addEventListener("click", event => {
@@ -164,20 +145,17 @@ canvas.addEventListener("click", event => {
 });
 ```
 
-Rebuild with `wasm-pack build` in `wasm-game-of-life`, then refresh
-[http://localhost:8080/](http://localhost:8080/) again and we can now draw our
-own patterns by clicking on the cells and toggling their state.
+在`wasm-game-of-life`中进行重构`wasm-pack build`，然后再次刷新
+[http://localhost:8080/](http://localhost:8080/)，
+我们现在可以通过点击细胞翻转他们的状态来绘制我们自己的图案了。
 
-## Exercises
+## 练习
 
-* Introduce an [`<input type="range">`][input-range] widget to control how many
-  ticks occur per animation frame.
+* 引入一个[`<input type="range">`][input-range]不见来控制每个动画帧发生多少次tick。
 
-* Add a button that resets the universe to a random initial state when
-  clicked. Another button that resets the universe to all dead cells.
+* 添加一个按钮，在点击的时候将宇宙重置到随机的初始状态。另一个按钮将所有细胞设置为死亡。
 
-* On `Ctrl + Click`, insert a
-  [glider](https://en.wikipedia.org/wiki/Glider_(Conway%27s_Life)) centered on
-  the target cell. On `Shift + Click`, insert a pulsar.
+* `Ctrl + Click`插入一个[滑翔机](https://en.wikipedia.org/wiki/Glider_(Conway%27s_Life))
+  到目标单元格。`Shift + Click`插入一个脉冲。
 
 [input-range]: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/range
