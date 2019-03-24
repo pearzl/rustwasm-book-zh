@@ -1,3 +1,5 @@
+*commit/179deeeb38966fca2087b222627874e15fdf7759*
+
 # 参考
 
 这一节包含了Rust和WebAssembly开发的参考资料。
