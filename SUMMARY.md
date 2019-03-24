@@ -1,6 +1,6 @@
 *commit/ca122c2cfcd50dc529b19d5e58542ddf12670a61*
 
-# Summary
+# 概要
 
 - [介绍](./introduction.md)
 - [为什么是Rust和WebAssembly？](./why-rust-and-webassembly.md)
@@ -14,12 +14,12 @@
     - [实现](./game-of-life/implementing.md)
     - [测试](./game-of-life/testing.md)
     - [调试](./game-of-life/debugging.md)
-    - [Adding Interactivity](./game-of-life/interactivity.md)
-    - [Time Profiling](./game-of-life/time-profiling.md)
-    - [Shrinking `.wasm` Size](./game-of-life/code-size.md)
-    - [Publishing to npm](./game-of-life/publishing-to-npm.md)
+    - [增加交互性](./game-of-life/interactivity.md)
+    - [时间分析](./game-of-life/time-profiling.md)
+    - [减小`.wasm`的尺寸](./game-of-life/code-size.md)
+    - [发布到npm](./game-of-life/publishing-to-npm.md)
 --------------------------------------------------------------------------------
-- [Reference](./reference/index.md)
+- [参考](./reference/index.md)
   - [Crates You Should Know](./reference/crates.md)
   - [Tools You Should Know](./reference/tools.md)
   - [Project Templates](./reference/project-templates.md)
