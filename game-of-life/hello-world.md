@@ -118,12 +118,12 @@ pkg/
 └── wasm_game_of_life.js
 ```
 
-`README.md`文件时从主项目中拷贝的，其他文件则完全时新的。
+`README.md`文件是从主项目中拷贝的，其他文件则完全是新的。
 
 ### `wasm-game-of-life/pkg/wasm_game_of_life_bg.wasm`
 
 `.wasm`文件是从Rust源代码编译而来的WebAssembly二进制文件。
-它包含所有我们的Rust函数和数据的编译到wasm版本。
+它包含编译到wasm版本的所有Rust函数和数据。
 例如，它有一个被导出的“greet”函数。
 
 ### `wasm-game-of-life/pkg/wasm_game_of_life.js`
@@ -159,7 +159,7 @@ export function greet(): void;
 ### `wasm-game-of-life/pkg/package.json`
 
 [`package.json`包含了生成的JavaScript和WebAssembly包的元信息。][package.json]
-这被npm和JavaScript绑定使用以决定在跨包，包名，版本和去多其他内容时的依赖关系。
+这被npm和JavaScript绑定使用以决定在跨包，包名，版本和许多其他内容时的依赖关系。
 它帮助我们与JavaScript工具集成，并允许我们将我们的包发布到npm。
 
 ```json
@@ -210,7 +210,7 @@ wasm-game-of-life/www/
 └── webpack.config.js
 ```
 
-再一次，让我们更近的看看这些文件。
+再一次，让我们仔细看看这些文件。
 
 ### `wasm-game-of-life/www/package.json`
 
@@ -220,7 +220,7 @@ wasm-game-of-life/www/
 ### `wasm-game-of-life/www/webpack.config.js`
 
 这个文件配置了webpack和它的本地开发服务。
-它是预先配置好的，你根本不需要进行调整就能是webpack和它的本地开发服务工作。
+它是预先配置好的，你根本不需要进行调整就能使webpack和它的本地开发服务工作。
 
 ### `wasm-game-of-life/www/index.html`
 
@@ -328,19 +328,19 @@ npm run start
   <details>
     <summary>答案</summary>
 
-    `wasm-game-of-life/src/lib.rs`中新版本的`greet`函数：
+    <p><code>wasm-game-of-life/src/lib.rs</code>中新版本的<code>greet</code>函数：</P>
 
-    ```rust
+    <code>
     #[wasm_bindgen]
     pub fn greet(name: &str) {
         alert(&format!("Hello, {}!", name));
     }
-    ```
+    </code>
 
-    `wasm-game-of-life/www/index.js`中新的`greet`调用：
+    <p><code>wasm-game-of-life/www/index.js</code>中新的<code>greet</code>调用：</p>
 
-    ```js
+    <code>
     wasm.greet("Your Name");
-    ```
+    </code>
 
   </details>
