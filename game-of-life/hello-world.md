@@ -328,16 +328,16 @@ npm run start
   <details>
     <summary>答案</summary>
 
-    <p><code>wasm-game-of-life/src/lib.rs</code>中新版本的<code>greet</code>函数：</P>
+    <p class="comments-section"><code>wasm-game-of-life/src/lib.rs</code>中新版本的<code>greet</code>函数：</P>
 
-    <code>
+    <pre><code>
     #[wasm_bindgen]
     pub fn greet(name: &str) {
         alert(&format!("Hello, {}!", name));
     }
-    </code>
+    </code></pre>
 
-    <p><code>wasm-game-of-life/www/index.js</code>中新的<code>greet</code>调用：</p>
+    <p class="comments-section"><code>wasm-game-of-life/www/index.js</code>中新的<code>greet</code>调用：</p>
 
     <code>
     wasm.greet("Your Name");
